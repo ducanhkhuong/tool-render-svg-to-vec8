@@ -1,0 +1,9 @@
+[package]
+name = "tool"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+resvg = "0.27"
+usvg = "0.27"
+tiny-skia = "0.8"
