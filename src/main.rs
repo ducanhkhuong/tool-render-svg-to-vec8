@@ -46,15 +46,29 @@ fn main() {
         byte_data.push(low_byte);
     }
 
+    // let file_path = "output/file.txt";
+    // let mut file = File::create(file_path).expect("not create file");
+    // writeln!(file, "#[rustfmt::skip]").expect("err : not write to file");
+    // writeln!(file, "const DATA: &[u8] = &[").expect("err : not write to file");
+    // for chunk in byte_data.chunks(2) {
+    //     let byte1 = chunk[0];
+    //     let byte2 = chunk[1];
+    //     writeln!(file, "    0b{:08b}, 0b{:08b},", byte1, byte2).expect("err : not write to file");
+    // }
+    // writeln!(file, "];").expect("err : not write to file");
+    // println!("Data successfully! in {}", file_path);
+
     let file_path = "output/file.txt";
     let mut file = File::create(file_path).expect("not create file");
+    writeln!(file, "pub mod test1 {{").expect("err : not write to file");
     writeln!(file, "#[rustfmt::skip]").expect("err : not write to file");
-    writeln!(file, "const DATA: &[u8] = &[").expect("err : not write to file");
+    writeln!(file, "pub const DATA: &[u8] = &[").expect("err : not write to file");
     for chunk in byte_data.chunks(2) {
         let byte1 = chunk[0];
         let byte2 = chunk[1];
         writeln!(file, "    0b{:08b}, 0b{:08b},", byte1, byte2).expect("err : not write to file");
     }
     writeln!(file, "];").expect("err : not write to file");
+    writeln!(file, "}}").expect("err : not write to file");
     println!("Data successfully! in {}", file_path);
 }
