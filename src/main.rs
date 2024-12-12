@@ -1,5 +1,6 @@
 use resvg::tiny_skia::Pixmap;
 use resvg::tiny_skia::Transform;
+use tiny_skia::Color;
 use std::fs::File;
 use std::io::{self, Write};
 use usvg::{Options, Tree};
@@ -17,10 +18,13 @@ fn main() {
     let svg_data = std::fs::read(path).expect("not read file svg");
     let tree = Tree::from_data(&svg_data, &options_ref).expect("not parse svg file");
 
-    let pixmap_size = 240;
+    let pixmap_size = 80; 
     let mut pixmap = Pixmap::new(pixmap_size, pixmap_size).expect("not create pixmap");
     let transform = Transform::default();
 
+    let gray = Color::from_rgba(42.0 / 255.0, 50.0 / 255.0, 63.0 / 255.0, 1.0).unwrap();
+    pixmap.fill(gray);
+    
     resvg::render(
         &tree,
         usvg::FitTo::Size(pixmap_size, pixmap_size),
@@ -45,18 +49,6 @@ fn main() {
         byte_data.push(high_byte);
         byte_data.push(low_byte);
     }
-
-    // let file_path = "output/file.txt";
-    // let mut file = File::create(file_path).expect("not create file");
-    // writeln!(file, "#[rustfmt::skip]").expect("err : not write to file");
-    // writeln!(file, "const DATA: &[u8] = &[").expect("err : not write to file");
-    // for chunk in byte_data.chunks(2) {
-    //     let byte1 = chunk[0];
-    //     let byte2 = chunk[1];
-    //     writeln!(file, "    0b{:08b}, 0b{:08b},", byte1, byte2).expect("err : not write to file");
-    // }
-    // writeln!(file, "];").expect("err : not write to file");
-    // println!("Data successfully! in {}", file_path);
 
     let file_path = "output/file.txt";
     let mut file = File::create(file_path).expect("not create file");
